@@ -32,7 +32,7 @@ class CoreMethod{
 
       }
 
-      return throw new Exception("O method ".$this->GetMethodInUri(). ' não existe');
+      return throw new Exception('O method '.$this->GetMethodInUri(). ' não existe');
       
 
     }

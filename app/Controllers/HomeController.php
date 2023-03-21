@@ -10,7 +10,9 @@ class HomeController {
      
     $user = new User();
 
-    var_dump($user->insertUser());
+    $data = ['nome' => 'Alex Santana', 'email' => 'alex@alex', 'senha' => '123456'];
+
+    var_dump($user->insertUser($data));
      
   }
 

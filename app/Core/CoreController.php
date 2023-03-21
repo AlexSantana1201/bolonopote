@@ -36,11 +36,11 @@ class CoreController
     {
 
 
-        if (class_exists(self::NAMESPACE_CONTROLLER . $this->GetControllerInUri())) {
+        if (class_exists(self::NAMESPACE_CONTROLLER. $this->GetControllerInUri())) {
 
-            return self::NAMESPACE_CONTROLLER . $this->GetControllerInUri();
+            return self::NAMESPACE_CONTROLLER. $this->GetControllerInUri();
         }
 
-        return throw new Exception("Controller " . $this->GetControllerInUri() . " não encontrado");
+        return throw new Exception("Controller " .self::NAMESPACE_CONTROLLER.$this->GetControllerInUri() . " não encontrado");
     }
 }

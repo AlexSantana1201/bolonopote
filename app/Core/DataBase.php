@@ -2,17 +2,20 @@
 
 namespace App\Core;
 
-use App\Interfaces\InterfaceDB;
 
+
+/**
+ * Summary of DataBase
+ */
 abstract class DataBase
 { 
 
     private $conn;
-   /* private $host = 'localhost';
+    private $host = 'localhost';
     private $drive = 'mysql';
     private $db = 'portal';
     private $user = 'root';
-    private $password = '';*/
+    private $password = '';
 
     public function __construct()
     {
@@ -25,8 +28,8 @@ abstract class DataBase
     private function ConnectionDB()
     {
         try {
-            //$this->conn = new \PDO(''.$this->drive.":host=".$this->host.";dbname=".$this->db.''.",".$this->getUser() .",". $this->password);
-           $this->conn = new \PDO('mysql:host=localhost;dbname=portal', 'root','');
+            $this->conn = new \PDO(''.$this->drive.':host='.$this->host.':3306;dbname='.$this->db.'',$this->user , $this->password);
+            
             $this->conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } catch (\PDOException $e) {
             echo 'ERROR:' . $e->getMessage();
@@ -39,14 +42,32 @@ abstract class DataBase
 
    
     public function select($table){
-        $sql = "SELECT * FROM ". $table;
+        $sql = "SELECT * FROM  $table";
         $pdo = $this->ConnectionDB()->prepare($sql);
         $pdo->execute();
         return ($pdo->fetchAll());
     }
 
-    public function insert(){      
-        return "Aqui vc irá inserir seu PDO INSERT";
+    /**
+     * Summary of insert
+     * @param mixed $table
+     * @param mixed $data
+     * @return bool
+     */
+    public function insert($table, $data, $fillable){
+       
+
+        $fillable = "`".implode("`".','."`", $fillable  )."`";  
+        
+        $subs = $this->subsArray($data,'?');
+        $values = implode(",", $subs);
+        
+        $sql = "INSERT INTO $fillable VALUES $values";
+        /*$pdo = $this->ConnectionDB()->prepare($sql);
+        $pdo->execute();
+        return ($pdo->fetchAll());*/
+
+         return $sql;
         
     }
 
@@ -60,6 +81,31 @@ abstract class DataBase
     {
         return "Aqui vc irá inserir seu PDO DELETE";
     }
+
+
+
+    function subsArray($data, $value){
+
+   
+        $qdtData = count($data);
+            
+        $array = [];
+    
+        for($i = 0; $i < $qdtData; $i++){
+    
+            array_push($array, $value); 
+    
+        }
+    
+        return $array;
+    
+    }
+    
+
+
+
+
+   
 
 	
 	
