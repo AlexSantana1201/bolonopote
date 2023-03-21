@@ -8,11 +8,11 @@ abstract class DataBase
 { 
 
     private $conn;
-    private $host = 'localhost';
+   /* private $host = 'localhost';
     private $drive = 'mysql';
     private $db = 'portal';
     private $user = 'root';
-    private $password = '';
+    private $password = '';*/
 
     public function __construct()
     {
