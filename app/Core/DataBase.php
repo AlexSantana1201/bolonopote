@@ -2,13 +2,11 @@
 
 namespace App\Core;
 
+use App\Classes\ConvertArrays;
+use PDOException;
 
-
-/**
- * Summary of DataBase
- */
 abstract class DataBase
-{ 
+{
 
     private $conn;
     private $host = 'localhost';
@@ -28,8 +26,8 @@ abstract class DataBase
     private function ConnectionDB()
     {
         try {
-            $this->conn = new \PDO(''.$this->drive.':host='.$this->host.':3306;dbname='.$this->db.'',$this->user , $this->password);
-            
+            $this->conn = new \PDO('' . $this->drive . ':host=' . $this->host . ':3306;dbname=' . $this->db . '', $this->user, $this->password);
+
             $this->conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } catch (\PDOException $e) {
             echo 'ERROR:' . $e->getMessage();
@@ -40,35 +38,46 @@ abstract class DataBase
 
 
 
-   
-    public function select($table){
+
+    public function select($table)
+    {
         $sql = "SELECT * FROM  $table";
         $pdo = $this->ConnectionDB()->prepare($sql);
         $pdo->execute();
         return ($pdo->fetchAll());
     }
 
-    /**
-     * Summary of insert
-     * @param mixed $table
-     * @param mixed $data
-     * @return bool
-     */
-    public function insert($table, $data, $fillable){
-       
 
-        $fillable = "`".implode("`".','."`", $fillable  )."`";  
-        
-        $subs = $this->subsArray($data,'?');
-        $values = implode(",", $subs);
-        
-        $sql = "INSERT INTO $fillable VALUES $values";
-        /*$pdo = $this->ConnectionDB()->prepare($sql);
-        $pdo->execute();
-        return ($pdo->fetchAll());*/
+    public function insert(String $table, Array $data, Array $fillable)
+    {
 
-         return $sql;
-        
+        $convertarray = new ConvertArrays();
+
+        $fillable = "`" . implode("`" . ',' . "`", $fillable) . "`";
+
+        $strArray = $convertarray->strArray($data, '?');
+        $values = implode(",", $strArray);
+
+        $sql = "INSERT INTO $table($fillable) VALUES $values";
+        $pdo = $this->ConnectionDB()->prepare($sql);
+
+
+        try {
+            $keyarrays = 1;
+            foreach ($data as $key => $value) {
+                $pdo->bindValue($keyarrays, $value);
+                $keyarrays++;
+            }
+
+            $pdo->execute();
+
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+            
+        }
+
+        //return $sql;
+
     }
 
     public function update()
@@ -81,32 +90,4 @@ abstract class DataBase
     {
         return "Aqui vc irá inserir seu PDO DELETE";
     }
-
-
-
-    function subsArray($data, $value){
-
-   
-        $qdtData = count($data);
-            
-        $array = [];
-    
-        for($i = 0; $i < $qdtData; $i++){
-    
-            array_push($array, $value); 
-    
-        }
-    
-        return $array;
-    
-    }
-    
-
-
-
-
-   
-
-	
-	
 }

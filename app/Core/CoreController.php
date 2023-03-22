@@ -4,6 +4,9 @@ namespace App\Core;
 
 use FFI\Exception;
 
+/**
+ * Summary of CoreController
+ */
 class CoreController
 {
 
@@ -32,6 +35,10 @@ class CoreController
     }
 
 
+    /**
+     * Summary of GetControllerInNameSpace
+     * @return string
+     */
     public function GetControllerInNameSpace(): String
     {
 
