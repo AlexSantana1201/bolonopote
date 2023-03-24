@@ -12,7 +12,7 @@ class HomeController {
 
     $data = ['nome' => 'Alex Santana', 'email' => 'alex@alex', 'senha' => '123456'];
 
-    var_dump($user->insertUser($data));
+    var_dump($user->updateUser(1));
      
   }
 

@@ -76,13 +76,26 @@ abstract class DataBase
             
         }
 
-        //return $sql;
+        return $sql;
 
     }
 
-    public function update()
-    {
-        return "Aqui vc irá inserir seu PDO UPDATE";
+    public function update(String $table, int $id, Array $fillable)
+    {   
+
+       /* $convertarray = new ConvertArrays();
+
+        //$fillable = "`" . implode("`" . ',' . "`", $fillable) . "`";
+
+        $strArray = $convertarray->strArray($fillable, '= ?');
+        
+        $sql = "UPDATE $table SET  WHERE id = $id";
+
+        return $strArray;*/
+
+
+
+
     }
 
 

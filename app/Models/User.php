@@ -8,7 +8,9 @@ class User extends DataBase{
   private  $table = 'users';
 
   private $fillable = ['login','email','senha'];
-  private $id = 'id';
+  private $idTable = 'id';
+
+
 
     public function insertUser($data){
 
@@ -16,5 +18,11 @@ class User extends DataBase{
 
        return $insertUser;
     }
+
+    /*public function updateUser($id){
+      $updateUser = DataBase::update($this->table, $id, $this->fillable);
+
+      return $updateUser;
+    }*/
 
 }
